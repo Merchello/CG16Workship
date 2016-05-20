@@ -17,3 +17,6 @@
 
 # ImageProcessor DiskCache 
 **/App_Data/cache/
+src/.vs/
+src/Website/App_Data/Models/
+src/Website/App_Data/packages/
