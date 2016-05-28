@@ -1,5 +1,7 @@
-﻿@inherits UmbracoTemplatePage
-@using Website
+﻿@inherits Merchello.Web.Mvc.MerchelloTemplatePage
+@using Merchello.Core.Models
+@using Merchello.FastTrack.Ui
+@using Merchello.Web
 @{
     var storeRoot = ExampleUiHelper.Content.GetStoreRoot();
     var basketPage = ExampleUiHelper.Content.GetBasket();
@@ -33,11 +35,33 @@
 
             <ul class="nav navbar-nav navbar-right mui-nav-right">
                 <li@(IsActive(basketPage.Id))>
-                    <a href="@basketPage.Url"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> @basketPage.Name (<span data-muilabel="basketcount">0</span>)</a>
+                    <a href="@basketPage.Url"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> @basketPage.Name (<span data-muilabel="basketcount">@CurrentCustomer.Basket().TotalQuantityCount</span>)</a>
                 </li>
 
-               
-                @*<li @(!CurrentCustomer.Basket().Items.Any() ? MvcHtmlString.Create("class=\"mui-quickcheckout\"") : MvcHtmlString.Empty) data-value="quickcheckout"><a href="@ExampleUiHelper.Content.GetCheckout().Url" class="success">Quick Checkout</a></li>*@
+                <li@(IsActive(accountPage.Id, !CurrentCustomer.IsAnonymous))>
+                    <a href="@accountPage.Url">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        @if (CurrentCustomer.IsAnonymous)
+                        {
+                            <span>Login</span>
+                        }
+                        else
+                        {
+                            var customer = (ICustomer)CurrentCustomer;
+                            <span>@customer.FirstName @customer.LastName</span>
+                        }
+                    </a>
+                </li>
+                @if (!CurrentCustomer.IsAnonymous)
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Logout", "Logout", "CustomerMembership", new { area = "FastTrack", redirectId = Model.Content.Id }, null)</li>
+                        </ul>
+                    </li>
+                }
+                <li @(!CurrentCustomer.Basket().Items.Any() ? MvcHtmlString.Create("class=\"mui-quickcheckout\"") : MvcHtmlString.Empty) data-value="quickcheckout"><a href="@ExampleUiHelper.Content.GetCheckout().Url" class="success">Quick Checkout</a></li>
             </ul>
 
         </div>
