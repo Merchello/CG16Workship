@@ -1,0 +1,30 @@
+﻿@using Merchello.Core.Models
+@inherits Merchello.Web.Mvc.MerchelloViewPage<IPublishedContent>
+@{
+	Layout = "Master.cshtml";
+
+    var customer = (ICustomer)CurrentCustomer;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@string.Format("{0} {1}", customer.FirstName, customer.LastName)</h2>
+    </div>
+</div>
+@if (Model.HasProperty("brief") && Model.HasValue("brief"))
+{
+    @Umbraco.Field("brief")
+}
+
+<div class="row">
+
+    <div class="col-md-9">
+        <!-- Sales History -->
+    </div>
+
+    <div class="col-md-3">
+        <!-- Customer billing address -->
+
+        <!-- Customer shipping address -->
+    </div>
+</div>

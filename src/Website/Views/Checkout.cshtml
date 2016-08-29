@@ -1,0 +1,14 @@
+﻿@inherits UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+
+    // Simple check that determines if the basket is empty and, if so, redirects off the checkout page
+    //if (CurrentCustomer.Basket().IsEmpty)
+    //{
+    //    Response.Redirect(ExampleUiHelper.Content.GetStoreRoot().Url);
+    //}
+}
+
+@Html.Partial("_Headline")
+
+@RenderBody()
